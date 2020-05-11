@@ -1,0 +1,73 @@
+---
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+    name: plex
+spec:
+    selector:
+        matchLabels:
+            app: plex
+    serviceName: plex
+    # start with 1 and then use the scale command to add more later
+    replicas: 1
+    template:
+        metadata:
+            labels:
+                app: plex
+        spec:
+            hostNetwork: true
+            terminationGracePeriodSeconds: 10
+            affinity:
+                podAntiAffinity:
+                    requiredDuringSchedulingIgnoredDuringExecution:
+                        -
+                            labelSelector:
+                                matchExpressions:
+                                -
+                                    key: "app"
+                                    operator: In
+                                    values:
+                                    -
+                                        plex
+                            topologyKey: "kubernetes.io/hostname"
+            containers:
+                -
+                    env:
+                        -
+                            name: PLEX_CLAIM
+                            value: "claim-ZXLwxg33wjZpyqYCsuhb"
+                        -
+                            name: TZ
+                            value: "America/New_York"
+                    image: 'plexinc/pms-docker:1.19.3.2764-ef515a800'
+                    imagePullPolicy: IfNotPresent
+                    name: plex
+                    volumeMounts:
+                        -
+                            mountPath: /data
+                            name: plex-media
+                        -
+                            mountPath: /config
+                            name: plex-config
+    volumeClaimTemplates:
+        -
+            metadata:
+                name: plex-config
+            spec:
+                accessModes:
+                    - ReadWriteOnce
+                storageClassName: plex-config
+                resources:
+                    requests:
+                        storage: 100G
+        -
+            metadata:
+                name: plex-media
+            spec:
+                accessModes:
+                    - ReadOnlyMany
+                storageClassName: plex-media
+                resources:
+                    requests:
+                        storage: 100G
+
