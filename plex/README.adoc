@@ -15,13 +15,14 @@ An NFS server to hold the Plex configuration files is required.  Each node will 
 A https://www.plex.tv/[Plex] account and a https://www.plex.tv/claim/[claim token] that will be stored as a secret.
 
 == Building
+There isn't any code, so there is nothint bo build, but you do need to edit `compute.yml` and `storage.yml` to match your network configuration before proceeding.
 
 == Installation
 === Claim Token
 The Plex token is a secret that should not be hard coded into the deployment files. Run `kubectl create secret generic plex --from-literal=claim-token='your claim token'` to store the secret. Use `kubectl get secrets` to verify the secret has been stored.
 
 === NFS Shares
-Plex requires two directories to work properly.  One is a read-only directory that holds all the media to be service.  The second is a read-write directory to hold configuration and metadata.  For each node in the cluster, we need to create a share of each type. Run `kubectl create --filename storage.yml` to create the required `PersistentVolume`.  Make sure to edit the file prior to running the command to match your NFS setup. Use `kubectl get persistentvolume --output wide` to see what was created.  The important concept is to note that there volumes of type `plex-config` and `plex-media`.
+Plex requires two directories to work properly.  One is a read-only directory that holds all the media to be service.  The second is a read-write directory to hold configuration and metadata.  For each node in the cluster, we need to create a share of each type. Run `kubectl create --filename storage.yml` to create the required `PersistentVolume`. Use `kubectl get persistentvolume --output wide` to see what was created.  The important concept is to note that there are volumes of type `plex-config` and `plex-media`.
 
 === Plex Instances
 Run `kubectl create --filename compute.yml` to create an instance of Plex.  The file is configured to only deploy a single instance, allowing you to see if it working properly. Use `kubectl get statefulsets.apps --output wide` to see when it is ready. You can then use `kubectl get pod --output wide` to get the ip address of the instance so you can bring up the Plex console. Once you are satisfied that Plex is working correctly, use `kubectl scale statefulsets.apps plex --replicas=2` to bring up an additional instance.  The new instance should shortly show up in the `MORE` section of the console.
