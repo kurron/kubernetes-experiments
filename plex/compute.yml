@@ -35,7 +35,10 @@ spec:
                     env:
                         -
                             name: PLEX_CLAIM
-                            value: "claim-ZXLwxg33wjZpyqYCsuhb"
+                            valueFrom:
+                                secretKeyRef:
+                                    name: plex
+                                    key: claim-token
                         -
                             name: TZ
                             value: "America/New_York"
