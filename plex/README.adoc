@@ -15,7 +15,7 @@ An NFS server to hold the Plex configuration files is required.  Each node will 
 A https://www.plex.tv/[Plex] account and a https://www.plex.tv/claim/[claim token] that will be stored as a secret.
 
 == Building
-There isn't any code, so there is nothint bo build, but you do need to edit `compute.yml` and `storage.yml` to match your network configuration before proceeding.
+There isn't any code, so there is nothing bo build, but you do need to edit `compute.yml` and `storage.yml` to match your network configuration before proceeding.
 
 == Installation
 === Claim Token
