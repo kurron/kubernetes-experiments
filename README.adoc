@@ -7,16 +7,25 @@ ifdef::env-github[]
 endif::[]
 
 == Overview
+This project contains smaller sub-projects that I've used to learn how to work with Kubernetes.  The services I've typically run as Docker containers have been converted to K8s.
 
 == Prerequisites
+* multiple servers running Ubuntu 20.04
+* https://microk8s.io/[MicroK8s] installed on each server via Ubuntu Installer
 
 == Building
 
 == Installation
+One of the servers will be used as the master and the remaining servers will be worker nodes.  Follow https://microk8s.io/docs/clustering[Multi-node MicroK8s] instructions to add worker nodes.
 
 == Tips and Tricks
+=== Alias kubectl
+Aliasing `microk8s.kubectl` to `kubectl` shortens the commands a bit and all instructions will use `kubectl`. 
 
 == Troubleshooting
+
+== Projects
+* link:plex/README.adoc[Plex] - a multi-node configuration of the https://www.plex.tv/[Plex] media server
 
 == Contributing
 

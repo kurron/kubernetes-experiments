@@ -7,12 +7,21 @@ ifdef::env-github[]
 endif::[]
 
 == Overview
+This project deploys multiple instances of the https://www.plex.tv/[Plex] media server to the cluster.  Multiple Plex instances on a single network is overkill but does teach us about https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/[StatefulSets], https://kubernetes.io/docs/concepts/storage/persistent-volumes/[Persistent Volumes], https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity[anti-affinity] and https://kubernetes.io/docs/concepts/configuration/secret/[Secrets].
 
 == Prerequisites
+An NFS server to hold the Plex configuration files is required.  Each node will require its own NFS share and must be writeable by *all* nodes in the cluster.  There is no guarantee to which share the scheduler will be bind to a node so each share must accept writes from *any* node in the cluster.
+
+A https://www.plex.tv/[Plex] account and a https://www.plex.tv/claim/[claim token] that will be stored as a secret.
 
 == Building
 
 == Installation
+=== Claim Token
+The Plex token is a secret that should not be hard coded into the deployment files. Run `kubectl create secret generic plex-claim-token --from-literal=token='your claim token'` to store the secret. Use `kubectl get secrets` to verify the secret has been stored.
+
+=== NFS Shares
+Plex requires two directories to work properly.  One is a read-only directory that holds all the media to be service.  The second is a read-write directory to hold configuration and metadata.  For each node in the cluster, we need to create a share of each type. Run `kubectl create --filename storage.yml` to create the required `PersistentVolume`.  Make sure to edit the file prior to running the command to match your NFS setup. Use `kubectl get persistentvolume --output wide` to see what was created.  The important concept is to note that there volumes of type `plex-config` and `plex-media`.
 
 == Tips and Tricks
 
