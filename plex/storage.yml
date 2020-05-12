@@ -30,6 +30,20 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
+    name: plex-media-bifrost
+spec:
+    storageClassName: plex-media
+    capacity:
+        storage: 5T
+    accessModes:
+        - ReadOnlyMany
+    nfs:
+        server: 192.168.1.234
+        path: /media
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
     name: plex-config-atlantis
 spec:
     storageClassName: plex-config
@@ -54,4 +68,18 @@ spec:
     nfs:
         server: 192.168.1.234
         path: /stargate-pc
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+    name: plex-config-bifrost
+spec:
+    storageClassName: plex-config
+    capacity:
+        storage: 105G
+    accessModes:
+        - ReadWriteOnce
+    nfs:
+        server: 192.168.1.234
+        path: /bifrost-pc
 
