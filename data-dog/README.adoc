@@ -1,0 +1,46 @@
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+== Overview
+This project is a reification of https://www.datadoghq.com/blog/monitoring-kubernetes-with-datadog/[Monitoring Kubernetes with Datadog], monitoring your MicroK8s cluster using the free tier of https://www.datadoghq.com/[Datadog]. 
+
+== Prerequisites
+A Datadog account and API key.
+
+== Building
+There is nothing to build.
+
+== Installation
+=== API Key
+The Datadog API key is a secret that should not be hard coded into the deployment files. Run `kubectl create secret generic datadog-secret --from-literal api-key="<YOUR_API_KEY>"` to store the secret. Use `kubectl get secrets` to verify the secret has been stored.
+
+=== Datadog Token
+Another secret that must be kept is one that is used to authenticate communication between the Datadog containers.  Run `echo -n '<SOME_32_CHARACTER_LONG_STRING>' | base64`. Feed the results of the encoding into `kubectl create secret generic datadog-auth-token --from-literal=token=<TOKEN_FROM_PREVIOUS_STEP>`. Use `kubectl get secrets` to verify the secret has been stored.
+
+=== Datadog Roles
+Run `kubectl create -f "https://raw.githubusercontent.com/DataDog/datadog-agent/master/Dockerfiles/manifests/cluster-agent/rbac/rbac-cluster-agent.yaml"` and `kubectl create -f "https://raw.githubusercontent.com/DataDog/datadog-agent/master/Dockerfiles/manifests/cluster-agent/rbac/rbac-agent.yaml"` to create the roles used by the Datadog agents.
+
+=== Cluster Agent
+Run `kubectl apply --filename datadog-cluster-agent.yaml` to create the agent and `kubectl get pods -l app=datadog-cluster-agent --output wide` to see where it gets deployed.
+
+=== Datadog Agent
+Run `kubectl create --filename datadog-agent.yaml` to create the agent and `kubectl get daemonset datadog-agent --output wide --watch` to watch the status.
+
+== Tips and Tricks
+=== Dashboard
+Log into your Datadog account and you should find a `Kubernetes - Overview` dashboard showing your cluster's information.
+
+== Troubleshooting
+
+== Contributing
+
+== License and Credits
+* This project is licensed under the http://www.apache.org/licenses/[Apache License Version 2.0, January 2004].
+
+== List of Changes
+
