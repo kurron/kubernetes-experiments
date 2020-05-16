@@ -27,6 +27,7 @@ Aliasing `microk8s.kubectl` to `kubectl` shortens the commands a bit and all ins
 == Projects
 * link:plex/README.adoc[Plex] - a multi-node configuration of the https://www.plex.tv/[Plex] media server
 * link:data-dog/README.adoc[Datadog] - monitoring your cluster using the free tier of https://app.datadoghq.com/[Datadog] media server
+* link:localstack/README.adoc[localstack] - A fully functional local AWS cloud stack. Develop and test your cloud & serverless apps offline using https://github.com/localstack/localstack/[localstack].
 
 == Contributing
 
