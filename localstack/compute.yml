@@ -1,0 +1,96 @@
+---
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+    name: localstack
+spec:
+    selector:
+        matchLabels:
+            app: localstack
+    serviceName: localstack
+    # probably doesn't make sense to ever go beyond 1 
+    replicas: 1
+    template:
+        metadata:
+            labels:
+                app: localstack
+        spec:
+            hostNetwork: true
+            terminationGracePeriodSeconds: 10
+            affinity:
+                podAntiAffinity:
+                    requiredDuringSchedulingIgnoredDuringExecution:
+                        -
+                            labelSelector:
+                                matchExpressions:
+                                -
+                                    key: "app"
+                                    operator: In
+                                    values:
+                                    -
+                                        localstack
+                            topologyKey: "kubernetes.io/hostname"
+            containers:
+                -
+                    env:
+                        -
+                            name: EDGE_PORT
+                            value: "4566"
+                        -
+                            name: SERVICES
+                            value: "dynamodb,dynamodbstreams,es,firehose,iam,kinesis,logs,s3,secretsmanager,sns,sqs"
+                        -
+                            name: DEFAULT_REGION
+                            value: "us-east-1"
+                        -
+                            name: HOSTNAME
+                            value: "localhost"
+                        -
+                            name: HOSTNAME_EXTERNAL
+                            value: "localhost"
+                        -
+                            name: USE_SSL
+                            value: "false"
+                        -
+                            name: KINESIS_ERROR_PROBABILITY
+                            value: "0.0"
+                        -
+                            name: KINESIS_SHARD_LIMIT
+                            value: "100"
+                        -
+                            name: KINESIS_LATENCY
+                            value: "500"
+                        -
+                            name: DYNAMODB_ERROR_PROBABILITY
+                            value: "0.0"
+                        -
+                            name: DATA_DIR
+                            value: "/tmp/localstack/data"
+                        -
+                            name: PORT_WEB_UI
+                            value: "10000"
+                        -
+                            name: FORCE_NONINTERACTIVE
+                            value: "true"
+                        -
+                            name: START_WEB
+                            value: "0"
+                    image: 'localstack/localstack:0.11.1'
+                    imagePullPolicy: IfNotPresent
+                    name: localstack
+                    volumeMounts:
+                        -
+                            mountPath: /tmp/localstack 
+                            name: localstack 
+    volumeClaimTemplates:
+        -
+            metadata:
+                name: localstack 
+            spec:
+                accessModes:
+                    - ReadWriteOnce
+                storageClassName: localstack 
+                resources:
+                    requests:
+                        storage: 10G
+

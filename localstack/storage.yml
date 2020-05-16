@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+    name: localstack 
+spec:
+    storageClassName: localstack 
+    capacity:
+        storage: 10G
+    accessModes:
+        - ReadWriteOnce
+    nfs:
+        server: 192.168.1.234
+        path: /asgard-pc
+
