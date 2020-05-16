@@ -7,7 +7,7 @@ ifdef::env-github[]
 endif::[]
 
 == Overview
-This project deploys a single instances of https://github.com/localstack/localstack/[localstack], a fully functional local AWS cloud stack, to the cluster. You can test your AWS code using it.
+This project deploys a single instance of https://github.com/localstack/localstack/[localstack], a fully functional local AWS cloud stack, to the cluster. You can test your AWS code using it.
 
 == Prerequisites
 An NFS server to hold the state of the persistence stores is required.  Although only one node will run the stack, the NFS share must be writeable by *all* nodes in the cluster.  We don't know which node will get bound to the share so the share must accept writes from *any* node in the cluster.
