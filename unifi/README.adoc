@@ -1,0 +1,41 @@
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+== Overview
+This project deploys a single instance of https://unifi-network.ui.com/#unifi[Unifi Controller], allowing you to manage Ubiquity network devices. 
+
+== Prerequisites
+An NFS server to hold the state of the persistence stores is required.  Although only one node will run the stack, the NFS share must be writeable by *all* nodes in the cluster.  We don't know which node will get bound to the share so the share must accept writes from *any* node in the cluster.
+
+== Building
+There isn't any code, so there is nothing bo build, but you do need to edit `compute.yml` and `storage.yml` to match your network configuration before proceeding.
+
+== Installation
+
+=== NFS Share
+The conroller persists data to a directory, preserving data between reboots and upgrades so a read-write directory is required.  Run `kubectl create --save-config --filename storage.yml` to create the required `PersistentVolume`. Use `kubectl get persistentvolume --output wide` to see what was created.  The important concept is to note that there is a volume of type `Ubiquity`.
+
+=== Unifi Instance
+Run `kubectl create --save-config --filename compute.yml` to create an instance of localstack.  Use `kubectl get statefulsets.apps --output wide` to see when it is ready. You can then use `kubectl get pod --output wide` to get the ip address of the instance so you can connect to its services.
+
+== Tips and Tricks
+=== Networking
+The pods are configured to use `hostNetwork: true` which means that all ports on the localstack pod are bound to the identicial ports on the host node.
+
+=== Web Interface
+You can test your deployment by hitting it at https://<pod ip address>:8443/. The ip address will be different, matching your node's address.
+
+== Troubleshooting
+
+== Contributing
+
+== License and Credits
+* This project is licensed under the http://www.apache.org/licenses/[Apache License Version 2.0, January 2004].
+
+== List of Changes
+

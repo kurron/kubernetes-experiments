@@ -1,0 +1,63 @@
+---
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+    name: unifi-controller
+spec:
+    selector:
+        matchLabels:
+            app: unifi-controller
+    serviceName: unifi-controller
+    # probably doesn't make sense to ever go beyond 1 
+    replicas: 1
+    template:
+        metadata:
+            labels:
+                app: unifi-controller
+        spec:
+            hostNetwork: true
+            terminationGracePeriodSeconds: 10
+            affinity:
+                podAntiAffinity:
+                    requiredDuringSchedulingIgnoredDuringExecution:
+                        -
+                            labelSelector:
+                                matchExpressions:
+                                -
+                                    key: "app"
+                                    operator: In
+                                    values:
+                                    -
+                                        unifi-controller
+                            topologyKey: "kubernetes.io/hostname"
+            containers:
+                -
+                    env:
+                        -
+                            name: PUID
+                            value: "1000"
+                        -
+                            name: PGID
+                            value: "1000"
+                        -
+                            name: MEM_LIMIT
+                            value: "1024M"
+                    image: 'linuxserver/unifi-controller:5.12.72-ls59'
+                    imagePullPolicy: IfNotPresent
+                    name: unifi-controller
+                    volumeMounts:
+                        -
+                            mountPath: /config
+                            name: unifi-controller
+    volumeClaimTemplates:
+        -
+            metadata:
+                name: unifi-controller
+            spec:
+                accessModes:
+                    - ReadWriteOnce
+                storageClassName: unifi-controller
+                resources:
+                    requests:
+                        storage: 10G
+
