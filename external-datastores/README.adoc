@@ -1,0 +1,36 @@
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+== Overview
+This project deploys multiple Kubernetes objects pointing to externally hosted datastores, such as https://www.mongodb.com/cloud[MongoDB Cloud], allowing pods to access those services using a stable name. 
+
+== Prerequisites
+Accounts to one or more hosted datastores.
+
+== Building
+There isn't any code, so there is nothing bo build, but you do need to edit `compute.yml` and `storage.yml` to match your network configuration before proceeding.
+
+== Installation
+
+=== Service Resources 
+The service definitions are contained in `network.yml` and needs to be edited accordingly.  Run `kubectl create --save-config --filename network.yml` to create the required objects. Use `kubectl get services --output wide` to see what was created.
+
+== Tips and Tricks
+=== Service Usage 
+Your pods can reference the external hosts by the friendly names, e.g. `mongodb`.
+
+== Troubleshooting
+
+== Contributing
+
+== License and Credits
+* This project is licensed under the http://www.apache.org/licenses/[Apache License Version 2.0, January 2004].
+* https://cloud.google.com/blog/products/gcp/kubernetes-best-practices-mapping-external-services[Kubernetes best practices: mapping external services] is an excellent discussion of the techniques used.
+
+== List of Changes
+
