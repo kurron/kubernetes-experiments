@@ -52,7 +52,7 @@ spec:
     accessModes:
         - ReadOnlyMany
     nfs:
-        server: 192.168.1.244
+        server: 192.168.1.234
         path: /media
 ---
 apiVersion: v1
