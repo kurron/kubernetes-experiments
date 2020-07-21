@@ -2,14 +2,14 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-    name: unifi-controller 
+    name: unifi-controller
 spec:
-    storageClassName: unifi-controller 
+    storageClassName: unifi-controller
     capacity:
         storage: 10G
     accessModes:
         - ReadWriteOnce
     nfs:
-        server: 192.168.1.234
-        path: /unifi
+        server: 192.168.1.211
+        path: /mnt/secondary/medium-priority/ums
 
