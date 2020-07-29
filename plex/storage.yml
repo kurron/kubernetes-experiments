@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-    name: plex-media-atlantis
+    name: plex-media-alpha
 spec:
     storageClassName: plex-media
     capacity:
@@ -10,13 +10,13 @@ spec:
     accessModes:
         - ReadOnlyMany
     nfs:
-        server: 192.168.1.234
-        path: /media
+        server: 192.168.1.211
+        path: /mnt/secondary/low-priority/media
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-    name: plex-media-stargate
+    name: plex-media-bravo
 spec:
     storageClassName: plex-media
     capacity:
@@ -24,13 +24,13 @@ spec:
     accessModes:
         - ReadOnlyMany
     nfs:
-        server: 192.168.1.234
-        path: /media
+        server: 192.168.1.211
+        path: /mnt/secondary/low-priority/media
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-    name: plex-media-bifrost
+    name: plex-media-charlie
 spec:
     storageClassName: plex-media
     capacity:
@@ -38,13 +38,13 @@ spec:
     accessModes:
         - ReadOnlyMany
     nfs:
-        server: 192.168.1.234
-        path: /media
+        server: 192.168.1.211
+        path: /mnt/secondary/low-priority/media
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-    name: plex-media-vulcan
+    name: plex-media-delta
 spec:
     storageClassName: plex-media
     capacity:
@@ -52,13 +52,13 @@ spec:
     accessModes:
         - ReadOnlyMany
     nfs:
-        server: 192.168.1.234
-        path: /media
+        server: 192.168.1.211
+        path: /mnt/secondary/low-priority/media
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-    name: plex-config-atlantis
+    name: plex-config-alpha
 spec:
     storageClassName: plex-config
     capacity:
@@ -66,13 +66,13 @@ spec:
     accessModes:
         - ReadWriteOnce
     nfs:
-        server: 192.168.1.234
-        path: /atlantis-pc
+        server: 192.168.1.211
+        path: /mnt/secondary/low-priority/plex/alpha
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-    name: plex-config-stargate
+    name: plex-config-bravo
 spec:
     storageClassName: plex-config
     capacity:
@@ -80,13 +80,13 @@ spec:
     accessModes:
         - ReadWriteOnce
     nfs:
-        server: 192.168.1.234
-        path: /stargate-pc
+        server: 192.168.1.211
+        path: /mnt/secondary/low-priority/plex/bravo
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-    name: plex-config-bifrost
+    name: plex-config-charlie
 spec:
     storageClassName: plex-config
     capacity:
@@ -94,13 +94,13 @@ spec:
     accessModes:
         - ReadWriteOnce
     nfs:
-        server: 192.168.1.234
-        path: /bifrost-pc
+        server: 192.168.1.211
+        path: /mnt/secondary/low-priority/plex/charlie
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-    name: plex-config-vulcan
+    name: plex-config-delta
 spec:
     storageClassName: plex-config
     capacity:
@@ -108,5 +108,5 @@ spec:
     accessModes:
         - ReadWriteOnce
     nfs:
-        server: 192.168.1.234
-        path: /vulcan-pc
+        server: 192.168.1.211
+        path: /mnt/secondary/low-priority/plex/delta
