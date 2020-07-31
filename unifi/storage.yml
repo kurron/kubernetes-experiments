@@ -6,10 +6,10 @@ metadata:
 spec:
     storageClassName: unifi-controller
     capacity:
-        storage: 10G
+        storage: 128M
     accessModes:
         - ReadWriteOnce
     nfs:
-        server: 192.168.1.211
-        path: /mnt/secondary/medium-priority/ums
+        server: 192.168.1.200
+        path: /mnt/primary/medium-priority/ums
 

@@ -31,6 +31,8 @@ The pods are configured to use `hostNetwork: true` which means that all ports on
 You can test your deployment by hitting it at https://<pod ip address>:8443/. The ip address will be different, matching your node's address.
 
 == Troubleshooting
+=== NFS v3 vs v4
+I hand issues with the container changing permissions on the mounted volumen when NFS v4 was used. Using v3 worked just fine.
 
 == Contributing
 
