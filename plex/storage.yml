@@ -2,58 +2,30 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-    name: plex-media-alpha
+    name: avc-blu-ray-movies
 spec:
-    storageClassName: plex-media
+    storageClassName: avc-blu-ray-movies
     capacity:
-        storage: 5T
+        storage: 1T
     accessModes:
         - ReadOnlyMany
     nfs:
-        server: 192.168.1.211
-        path: /mnt/secondary/low-priority/media
+        server: 192.168.1.200
+        path: /mnt/primary/low-priority/video/H.265/movies/blu-ray
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-    name: plex-media-bravo
+    name: avc-dvd-movies
 spec:
-    storageClassName: plex-media
+    storageClassName: avc-dvd-movies
     capacity:
-        storage: 5T
+        storage: 1T
     accessModes:
         - ReadOnlyMany
     nfs:
-        server: 192.168.1.211
-        path: /mnt/secondary/low-priority/media
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-    name: plex-media-charlie
-spec:
-    storageClassName: plex-media
-    capacity:
-        storage: 5T
-    accessModes:
-        - ReadOnlyMany
-    nfs:
-        server: 192.168.1.211
-        path: /mnt/secondary/low-priority/media
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-    name: plex-media-delta
-spec:
-    storageClassName: plex-media
-    capacity:
-        storage: 5T
-    accessModes:
-        - ReadOnlyMany
-    nfs:
-        server: 192.168.1.211
-        path: /mnt/secondary/low-priority/media
+        server: 192.168.1.200
+        path: /mnt/primary/low-priority/video/H.265/movies/dvd
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -62,12 +34,12 @@ metadata:
 spec:
     storageClassName: plex-config
     capacity:
-        storage: 105G
+        storage: 128G
     accessModes:
         - ReadWriteOnce
     nfs:
-        server: 192.168.1.211
-        path: /mnt/secondary/low-priority/plex/alpha
+        server: 192.168.1.200
+        path: /mnt/primary/low-priority/plex/alpha
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -76,12 +48,12 @@ metadata:
 spec:
     storageClassName: plex-config
     capacity:
-        storage: 105G
+        storage: 128G
     accessModes:
         - ReadWriteOnce
     nfs:
-        server: 192.168.1.211
-        path: /mnt/secondary/low-priority/plex/bravo
+        server: 192.168.1.200
+        path: /mnt/primary/low-priority/plex/bravo
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -90,12 +62,12 @@ metadata:
 spec:
     storageClassName: plex-config
     capacity:
-        storage: 105G
+        storage: 128G
     accessModes:
         - ReadWriteOnce
     nfs:
-        server: 192.168.1.211
-        path: /mnt/secondary/low-priority/plex/charlie
+        server: 192.168.1.200
+        path: /mnt/primary/low-priority/plex/charlie
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -104,9 +76,9 @@ metadata:
 spec:
     storageClassName: plex-config
     capacity:
-        storage: 105G
+        storage: 128G
     accessModes:
         - ReadWriteOnce
     nfs:
-        server: 192.168.1.211
-        path: /mnt/secondary/low-priority/plex/delta
+        server: 192.168.1.200
+        path: /mnt/primary/low-priority/plex/delta
