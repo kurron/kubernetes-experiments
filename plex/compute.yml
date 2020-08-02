@@ -53,6 +53,12 @@ spec:
                             mountPath: /video/H.265/movies/dvd
                             name: avc-dvd-movies
                         -
+                            mountPath: /video/H.265/tv/blu-ray
+                            name: avc-blu-ray-tv
+                        -
+                            mountPath: /video/H.265/tv/dvd
+                            name: avc-dvd-tv
+                        -
                             mountPath: /config
                             name: plex-config
     volumeClaimTemplates:
@@ -83,6 +89,26 @@ spec:
                 accessModes:
                     - ReadOnlyMany
                 storageClassName: avc-dvd-movies
+                resources:
+                    requests:
+                        storage: 128G
+        -
+            metadata:
+                name: avc-blu-ray-tv
+            spec:
+                accessModes:
+                    - ReadOnlyMany
+                storageClassName: avc-blu-ray-tv
+                resources:
+                    requests:
+                        storage: 128G
+        -
+            metadata:
+                name: avc-dvd-tv
+            spec:
+                accessModes:
+                    - ReadOnlyMany
+                storageClassName: avc-dvd-tv
                 resources:
                     requests:
                         storage: 128G
