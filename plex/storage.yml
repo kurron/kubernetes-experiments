@@ -82,17 +82,3 @@ spec:
     nfs:
         server: 192.168.1.200
         path: /mnt/primary/low-priority/plex/delta
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-    name: true-command
-spec:
-    storageClassName: true-command
-    capacity:
-        storage: 128G
-    accessModes:
-        - ReadWriteOnce
-    nfs:
-        server: 192.168.1.200
-        path: /mnt/primary/low-priority/true-command
