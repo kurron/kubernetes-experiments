@@ -2,58 +2,30 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-    name: avc-blu-ray-movies
+    name: video
 spec:
-    storageClassName: avc-blu-ray-movies
+    storageClassName: video
     capacity:
         storage: 1T
     accessModes:
         - ReadOnlyMany
     nfs:
         server: 192.168.1.200
-        path: /mnt/primary/low-priority/video/H.265/movies/blu-ray
+        path: /mnt/primary/low-priority/videos
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-    name: avc-dvd-movies
+    name: music
 spec:
-    storageClassName: avc-dvd-movies
+    storageClassName: music
     capacity:
         storage: 1T
     accessModes:
         - ReadOnlyMany
     nfs:
         server: 192.168.1.200
-        path: /mnt/primary/low-priority/video/H.265/movies/dvd
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-    name: avc-blu-ray-tv
-spec:
-    storageClassName: avc-blu-ray-tv
-    capacity:
-        storage: 1T
-    accessModes:
-        - ReadOnlyMany
-    nfs:
-        server: 192.168.1.200
-        path: /mnt/primary/low-priority/video/H.265/tv/blu-ray
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-    name: avc-dvd-tv
-spec:
-    storageClassName: avc-dvd-tv
-    capacity:
-        storage: 1T
-    accessModes:
-        - ReadOnlyMany
-    nfs:
-        server: 192.168.1.200
-        path: /mnt/primary/low-priority/video/H.265/tv/dvd
+        path: /mnt/primary/medium-priority/music
 ---
 apiVersion: v1
 kind: PersistentVolume

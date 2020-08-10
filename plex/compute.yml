@@ -47,17 +47,11 @@ spec:
                     name: plex
                     volumeMounts:
                         -
-                            mountPath: /video/H.265/movies/blu-ray
-                            name: avc-blu-ray-movies
+                            mountPath: /video
+                            name: video
                         -
-                            mountPath: /video/H.265/movies/dvd
-                            name: avc-dvd-movies
-                        -
-                            mountPath: /video/H.265/tv/blu-ray
-                            name: avc-blu-ray-tv
-                        -
-                            mountPath: /video/H.265/tv/dvd
-                            name: avc-dvd-tv
+                            mountPath: /music
+                            name: music
                         -
                             mountPath: /config
                             name: plex-config
@@ -74,41 +68,21 @@ spec:
                         storage: 128G
         -
             metadata:
-                name: avc-blu-ray-movies
+                name: video
             spec:
                 accessModes:
                     - ReadOnlyMany
-                storageClassName: avc-blu-ray-movies
+                storageClassName: video
                 resources:
                     requests:
                         storage: 128G
         -
             metadata:
-                name: avc-dvd-movies
+                name: music
             spec:
                 accessModes:
                     - ReadOnlyMany
-                storageClassName: avc-dvd-movies
-                resources:
-                    requests:
-                        storage: 128G
-        -
-            metadata:
-                name: avc-blu-ray-tv
-            spec:
-                accessModes:
-                    - ReadOnlyMany
-                storageClassName: avc-blu-ray-tv
-                resources:
-                    requests:
-                        storage: 128G
-        -
-            metadata:
-                name: avc-dvd-tv
-            spec:
-                accessModes:
-                    - ReadOnlyMany
-                storageClassName: avc-dvd-tv
+                storageClassName: music
                 resources:
                     requests:
                         storage: 128G
