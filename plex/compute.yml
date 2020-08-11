@@ -49,12 +49,15 @@ spec:
                         -
                             mountPath: /video
                             name: video
+                            readOnly: true
                         -
                             mountPath: /music
                             name: music
+                            readOnly: true
                         -
                             mountPath: /config
                             name: plex-config
+                            readOnly: false
     volumeClaimTemplates:
         -
             metadata:
