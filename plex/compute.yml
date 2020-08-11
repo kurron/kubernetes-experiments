@@ -42,7 +42,7 @@ spec:
                         -
                             name: TZ
                             value: "America/New_York"
-                    image: 'plexinc/pms-docker:1.19.4.2935-79e214ead'
+                    image: 'plexinc/pms-docker:1.19.5.3112-b23ab3896'
                     imagePullPolicy: IfNotPresent
                     name: plex
                     volumeMounts:
