@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-    name: video
+    name: video-delta
 spec:
     storageClassName: video
     capacity:
@@ -16,7 +16,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-    name: music
+    name: music-delta
 spec:
     storageClassName: music
     capacity:
@@ -26,48 +26,6 @@ spec:
     nfs:
         server: 192.168.1.200
         path: /mnt/primary/medium-priority/music
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-    name: plex-config-alpha
-spec:
-    storageClassName: plex-config
-    capacity:
-        storage: 128G
-    accessModes:
-        - ReadWriteOnce
-    nfs:
-        server: 192.168.1.200
-        path: /mnt/primary/low-priority/plex/alpha
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-    name: plex-config-bravo
-spec:
-    storageClassName: plex-config
-    capacity:
-        storage: 128G
-    accessModes:
-        - ReadWriteOnce
-    nfs:
-        server: 192.168.1.200
-        path: /mnt/primary/low-priority/plex/bravo
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-    name: plex-config-charlie
-spec:
-    storageClassName: plex-config
-    capacity:
-        storage: 128G
-    accessModes:
-        - ReadWriteOnce
-    nfs:
-        server: 192.168.1.200
-        path: /mnt/primary/low-priority/plex/charlie
 ---
 apiVersion: v1
 kind: PersistentVolume
