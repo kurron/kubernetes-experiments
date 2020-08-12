@@ -2,6 +2,49 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
+    name: video-bravo
+spec:
+    storageClassName: video
+    capacity:
+        storage: 1T
+    accessModes:
+        - ReadOnlyMany
+    nfs:
+        server: 192.168.1.200
+        path: /mnt/primary/low-priority/videos
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+    name: music-bravo
+spec:
+    storageClassName: music
+    capacity:
+        storage: 1T
+    accessModes:
+        - ReadOnlyMany
+    nfs:
+        server: 192.168.1.200
+        path: /mnt/primary/medium-priority/music
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+    name: plex-config-bravo
+spec:
+    storageClassName: plex-config
+    capacity:
+        storage: 128G
+    accessModes:
+        - ReadWriteOnce
+    nfs:
+        server: 192.168.1.200
+        path: /mnt/primary/low-priority/plex/bravo
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
     name: video-charlie
 spec:
     storageClassName: video
