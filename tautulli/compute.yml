@@ -1,0 +1,67 @@
+---
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+    name: tautulli
+spec:
+    selector:
+        matchLabels:
+            app: tautulli
+    serviceName: tautulli
+    # start with 1 and then use the scale command to add more later
+    replicas: 1
+    template:
+        metadata:
+            labels:
+                app: tautulli
+        spec:
+#           hostNetwork: true
+            terminationGracePeriodSeconds: 10
+            affinity:
+                podAntiAffinity:
+                    requiredDuringSchedulingIgnoredDuringExecution:
+                        -
+                            labelSelector:
+                                matchExpressions:
+                                -
+                                    key: "app"
+                                    operator: In
+                                    values:
+                                    -
+                                        tautulli
+                            topologyKey: "kubernetes.io/hostname"
+            containers:
+                -
+                    env:
+                        -
+                            name: TZ
+                            value: "America/New_York"
+                        -
+                            name: PUID
+                            value: "1000"
+                        -
+                            name: PGID
+                            value: "1000"
+                    image: 'tautulli/tautulli:v2.5.4'
+                    imagePullPolicy: IfNotPresent
+                    name: tautulli
+                    ports:
+                        - containerPort: 8181
+                          hostPort: 18181
+                          name: http
+                    volumeMounts:
+                        -
+                            mountPath: /config
+                            name: tautulli-config
+                            readOnly: false
+    volumeClaimTemplates:
+        -
+            metadata:
+                name: tautulli-config
+            spec:
+                accessModes:
+                    - ReadWriteOnce
+                storageClassName: tautulli-config
+                resources:
+                    requests:
+                        storage: 128G
