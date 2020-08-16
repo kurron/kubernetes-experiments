@@ -30,21 +30,6 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-    name: plex-config-bravo
-spec:
-    storageClassName: plex-config
-    capacity:
-        storage: 128G
-    accessModes:
-        - ReadWriteOnce
-    nfs:
-        server: 192.168.1.200
-        path: /mnt/primary/low-priority/plex/bravo
-
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
     name: video-charlie
 spec:
     storageClassName: video
@@ -69,21 +54,6 @@ spec:
     nfs:
         server: 192.168.1.200
         path: /mnt/primary/medium-priority/music
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-    name: plex-config-charlie
-spec:
-    storageClassName: plex-config
-    capacity:
-        storage: 128G
-    accessModes:
-        - ReadWriteOnce
-    nfs:
-        server: 192.168.1.200
-        path: /mnt/primary/low-priority/plex/charlie
-
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -120,11 +90,12 @@ metadata:
 spec:
     storageClassName: plex-config
     capacity:
-        storage: 128G
+        storage: 1G
     accessModes:
         - ReadWriteOnce
-    nfs:
-        server: 192.168.1.200
-        path: /mnt/primary/low-priority/plex/delta
-
-
+    iscsi:
+          targetPortal: 192.168.1.200:3260
+          iqn: iqn.2005-10.org.freenas.ctl:plex-configuration-delta
+          lun: 0
+          fsType: ext4
+          readOnly: false
