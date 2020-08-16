@@ -9,7 +9,7 @@ spec:
             app: plex
     serviceName: plex
     # start with 1 and then use the scale command to add more later
-    replicas: 2
+    replicas: 3
     template:
         metadata:
             labels:

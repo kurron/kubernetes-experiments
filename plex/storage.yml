@@ -34,7 +34,7 @@ metadata:
 spec:
     storageClassName: plex-config
     capacity:
-        storage: 1G
+        storage: 16G
     accessModes:
         - ReadWriteOnce
     iscsi:
@@ -79,7 +79,7 @@ metadata:
 spec:
     storageClassName: plex-config
     capacity:
-        storage: 1G
+        storage: 15G
     accessModes:
         - ReadWriteOnce
     iscsi:
@@ -124,7 +124,7 @@ metadata:
 spec:
     storageClassName: plex-config
     capacity:
-        storage: 1G
+        storage: 16G
     accessModes:
         - ReadWriteOnce
     iscsi:
