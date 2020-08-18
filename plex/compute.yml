@@ -9,7 +9,7 @@ spec:
             app: plex
     serviceName: plex
     # start with 1 and then use the scale command to add more later
-    replicas: 3
+    replicas: 1
     template:
         metadata:
             labels:
@@ -30,6 +30,17 @@ spec:
                                     -
                                         plex
                             topologyKey: "kubernetes.io/hostname"
+            volumes:
+                - name: video
+                  nfs:
+                      path: /mnt/primary/low-priority/videos
+                      readOnly: true
+                      server: 192.168.1.200
+                - name: music
+                  nfs:
+                      path: /mnt/primary/medium-priority/music
+                      readOnly: true
+                      server: 192.168.1.200
             containers:
                 -
                     env:
@@ -68,24 +79,4 @@ spec:
                 storageClassName: plex-config
                 resources:
                     requests:
-                        storage: 1G
-        -
-            metadata:
-                name: video
-            spec:
-                accessModes:
-                    - ReadOnlyMany
-                storageClassName: video
-                resources:
-                    requests:
-                        storage: 128G
-        -
-            metadata:
-                name: music
-            spec:
-                accessModes:
-                    - ReadOnlyMany
-                storageClassName: music
-                resources:
-                    requests:
-                        storage: 128G
+                        storage: 32G
