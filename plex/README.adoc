@@ -10,7 +10,7 @@ endif::[]
 This project deploys multiple instances of the https://www.plex.tv/[Plex] media server to the cluster.  Multiple Plex instances on a single network is overkill but does teach us about https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/[StatefulSets], https://kubernetes.io/docs/concepts/storage/persistent-volumes/[Persistent Volumes], https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity[anti-affinity] and https://kubernetes.io/docs/concepts/configuration/secret/[Secrets].
 
 == Prerequisites
-An NFS server to hold the Plex configuration files is required.  Each node will require its own NFS share and must be writeable by *all* nodes in the cluster.  There is no guarantee to which share the scheduler will be bind to a node so each share must accept writes from *any* node in the cluster.
+An iSCSI server to hold the Plex configuration files is required. Plex uses an embedded database making the use of NFS for storage problematic.  Serving up media, however, should be done via NFS as no writing will take place.  Each node will require its own iSCSI share.  There is no guarantee to which share the scheduler will be bind to a node so each share must accept writes from *any* node in the cluster.
 
 A https://www.plex.tv/[Plex] account and a https://www.plex.tv/claim/[claim token] that will be stored as a secret.
 
@@ -21,8 +21,8 @@ There isn't any code, so there is nothing bo build, but you do need to edit `com
 === Claim Token
 The Plex token is a secret that should not be hard coded into the deployment files. Run `kubectl create secret generic plex --from-literal=claim-token='your claim token'` to store the secret. Use `kubectl get secrets` to verify the secret has been stored.
 
-=== NFS Shares
-Plex requires two directories to work properly.  One is a read-only directory that holds all the media to be service.  The second is a read-write directory to hold configuration and metadata.  For each node in the cluster, we need to create a share of each type. Run `kubectl create --filename storage.yml` to create the required `PersistentVolume`. Use `kubectl get persistentvolume --output wide` to see what was created.  The important concept is to note that there are volumes of type `plex-config` and `plex-media`.
+=== Storage
+Plex requires at least two directories to work properly.  One is a read-only directory that holds all the media to be service.  The second is a read-write directory to hold configuration and metadata.  For each node in the cluster, we need to create a share of each type. Run `kubectl create --filename storage.yml` to create the required `PersistentVolume`. Use `kubectl get persistentvolume --output wide` to see what was created.  The important concept is to note that there are volumes of type `plex-config` and `plex-media`.
 
 === Plex Instances
 Run `kubectl create --filename compute.yml` to create an instance of Plex.  The file is configured to only deploy a single instance, allowing you to see if it is working properly. Use `kubectl get statefulsets.apps --output wide` to see when it is ready. You can then use `kubectl get pod --output wide` to get the ip address of the instance so you can bring up the Plex console. Once you are satisfied that Plex is working correctly, use `kubectl scale statefulsets.apps plex --replicas=2` to bring up an additional instance.  The new instance should shortly show up in the `MORE` section of the console.
