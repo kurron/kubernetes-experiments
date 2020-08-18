@@ -1,82 +1,70 @@
----
-kind: StatefulSet
+﻿kind: StatefulSet
 apiVersion: apps/v1
 metadata:
-    name: plex
+  name: plex
 spec:
-    selector:
-        matchLabels:
-            app: plex
-    serviceName: plex
-    # start with 1 and then use the scale command to add more later
-    replicas: 1
-    template:
-        metadata:
-            labels:
-                app: plex
-        spec:
-            hostNetwork: true
-            terminationGracePeriodSeconds: 10
-            affinity:
-                podAntiAffinity:
-                    requiredDuringSchedulingIgnoredDuringExecution:
-                        -
-                            labelSelector:
-                                matchExpressions:
-                                -
-                                    key: "app"
-                                    operator: In
-                                    values:
-                                    -
-                                        plex
-                            topologyKey: "kubernetes.io/hostname"
-            volumes:
-                - name: video
-                  nfs:
-                      path: /mnt/primary/low-priority/videos
-                      readOnly: true
-                      server: 192.168.1.200
-                - name: music
-                  nfs:
-                      path: /mnt/primary/medium-priority/music
-                      readOnly: true
-                      server: 192.168.1.200
-            containers:
-                -
-                    env:
-                        -
-                            name: PLEX_CLAIM
-                            valueFrom:
-                                secretKeyRef:
-                                    name: plex
-                                    key: claim-token
-                        -
-                            name: TZ
-                            value: "America/New_York"
-                    image: 'plexinc/pms-docker:1.19.5.3112-b23ab3896'
-                    imagePullPolicy: IfNotPresent
-                    name: plex
-                    volumeMounts:
-                        -
-                            mountPath: /video
-                            name: video
-                            readOnly: true
-                        -
-                            mountPath: /music
-                            name: music
-                            readOnly: true
-                        -
-                            mountPath: /config
-                            name: plex-config
-                            readOnly: false
-    volumeClaimTemplates:
-        -
-            metadata:
-                name: plex-config
-            spec:
-                accessModes:
-                    - ReadWriteOnce
-                storageClassName: plex-config
-                resources:
-                    requests:
-                        storage: 32G
+  selector:
+    matchLabels:
+      app: plex
+  serviceName: plex
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: plex
+    spec:
+      hostNetwork: true
+      terminationGracePeriodSeconds: 10
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - plex
+              topologyKey: kubernetes.io/hostname
+      volumes:
+        - name: video
+          nfs:
+            path: /mnt/primary/low-priority/videos
+            readOnly: true
+            server: 192.168.1.200
+        - name: music
+          nfs:
+            path: /mnt/primary/medium-priority/music
+            readOnly: true
+            server: 192.168.1.200
+      containers:
+        - env:
+            - name: PLEX_CLAIM
+              valueFrom:
+                secretKeyRef:
+                  name: plex
+                  key: claim-token
+            - name: TZ
+              value: America/New_York
+          image: 'plexinc/pms-docker:1.19.5.3112-b23ab3896'
+          imagePullPolicy: IfNotPresent
+          name: plex
+          volumeMounts:
+            - mountPath: /video
+              name: video
+              readOnly: true
+            - mountPath: /music
+              name: music
+              readOnly: true
+            - mountPath: /config
+              name: plex-config
+              readOnly: false
+  volumeClaimTemplates:
+    - metadata:
+        name: plex-config
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: plex-config
+        resources:
+          requests:
+            storage: 32G
