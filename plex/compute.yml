@@ -7,7 +7,7 @@ spec:
     matchLabels:
       app: plex
   serviceName: plex
-  replicas: 1
+  replicas: 2
   template:
     metadata:
       labels:
@@ -36,6 +36,11 @@ spec:
             path: /mnt/primary/medium-priority/music
             readOnly: true
             server: 192.168.1.200
+        - name: photos
+          nfs:
+            path: /mnt/primary/high-priority/photos
+            readOnly: true
+            server: 192.168.1.200
       containers:
         - env:
             - name: PLEX_CLAIM
@@ -55,6 +60,9 @@ spec:
             - mountPath: /music
               name: music
               readOnly: true
+            - mountPath: /photos
+              name: photos
+              readOnly: true
             - mountPath: /config
               name: plex-config
               readOnly: false
@@ -67,4 +75,4 @@ spec:
         storageClassName: plex-config
         resources:
           requests:
-            storage: 32G
+            storage: 64G

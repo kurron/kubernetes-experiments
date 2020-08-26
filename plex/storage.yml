@@ -1,16 +1,51 @@
-﻿apiVersion: v1
+﻿---
+apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: plex-config-delta
 spec:
   storageClassName: plex-config
   capacity:
-    storage: 32G
+    storage: 64G
   accessModes:
     - ReadWriteOnce
   iscsi:
     targetPortal: '192.168.1.200:3260'
     iqn: 'iqn.2005-10.org.freenas.ctl:plex-configuration-delta'
+    lun: 0
+    fsType: ext4
+    readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: plex-config-charlie
+spec:
+  storageClassName: plex-config
+  capacity:
+    storage: 64G
+  accessModes:
+    - ReadWriteOnce
+  iscsi:
+    targetPortal: '192.168.1.200:3260'
+    iqn: 'iqn.2005-10.org.freenas.ctl:plex-configuration-charlie'
+    lun: 0
+    fsType: ext4
+    readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: plex-config-bravo
+spec:
+  storageClassName: plex-config
+  capacity:
+    storage: 64G
+  accessModes:
+    - ReadWriteOnce
+  iscsi:
+    targetPortal: '192.168.1.200:3260'
+    iqn: 'iqn.2005-10.org.freenas.ctl:plex-configuration-bravo'
     lun: 0
     fsType: ext4
     readOnly: false
