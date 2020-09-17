@@ -31,6 +31,9 @@ Run `kubectl create --filename compute.yml` to create an instance of Plex.  The 
 === Networking
 The pods are configured to use `hostNetwork: true` which means that all ports on the Plex pods are bound to the identicial ports on the host node.  This was done because using the normal port mapping technique didn't work correctly.  The instances would disappear from the Plex console.  Using host networking solves this issue.  The trade-off is that only one instance of Plex can run on each host or port collisions occur.  In practice, you wouldn't want to run more than one Plex on a machine anyway.  To guard against port collisions, anti-affinity is used.  If you try and scale up beyond the number of nodes in the cluster, the service will be show up as "pending" as it waits for another node to come online.
 
+=== NFS Client
+Each node in the cluster must have NFS client sofware installed otherwise the Pods won't be able to mount the shares. On Unbutu, you can issue `sudo apt update && sudo apt install nfs-common`
+
 == Troubleshooting
 
 == Contributing
