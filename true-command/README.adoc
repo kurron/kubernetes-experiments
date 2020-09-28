@@ -1,0 +1,37 @@
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+== Overview
+This project deploys a single instance of the https://www.freenas.org/truecommand/[TrueCommand] server to the cluster.
+
+== Prerequisites
+An NFS server to hold the configuration files is required and must be writeable by *all* nodes in the cluster.  There is no guarantee to which share the scheduler will be bind to a node so each share must accept writes from *any* node in the cluster.
+
+== Building
+There isn't any code, so there is nothing bo build, but you do need to edit `compute.yml` and `storage.yml` to match your network configuration before proceeding.
+
+== Installation
+=== NFS Shares
+TrueCommand requires a read-write directory to hold configuration and metadata.  Run `kubectl create --filename storage.yml` to create the required `PersistentVolume`. Use `kubectl get persistentvolume --output wide` to see what was created.  The important concept is to note that there are volumes of type `true-command`.
+
+=== TrueCommand Instances
+Run `kubectl create --filename compute.yml` to create an instance of TrueCommand.  The file is configured to only deploy a single instance, allowing you to see if it is working properly. Use `kubectl get statefulsets.apps --output wide` to see when it is ready. You can then use `kubectl get pod --output wide` to get the ip address of the instance so you can bring up the web console.
+
+== Tips and Tricks
+=== Networking
+The Pods are fronted by a Service configured for NodePort, using port 30000. You'll have to locate the Node it is running on and use that IP to access the web UI. 
+
+== Troubleshooting
+
+== Contributing
+
+== License and Credits
+* This project is licensed under the http://www.apache.org/licenses/[Apache License Version 2.0, January 2004].
+
+== List of Changes
+

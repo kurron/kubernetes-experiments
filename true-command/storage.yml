@@ -1,0 +1,17 @@
+﻿---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: true-command-alpha
+spec:
+  storageClassName: true-command 
+  capacity:
+    storage: 16G
+  accessModes:
+    - ReadWriteOnce
+  iscsi:
+    targetPortal: '192.168.1.200:3260'
+    iqn: 'iqn.2005-10.org.freenas.ctl:true-command-alpha'
+    lun: 0
+    fsType: ext4
+    readOnly: false
