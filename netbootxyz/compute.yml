@@ -1,0 +1,92 @@
+﻿kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: netboot-xyz
+spec:
+  selector:
+    matchLabels:
+      app: netboot-xyz
+  serviceName: netboot-xyz
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: netboot-xyz
+    spec:
+      hostNetwork: false
+      terminationGracePeriodSeconds: 10
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - netboot-xyz
+              topologyKey: kubernetes.io/hostname
+      volumes:
+        - name: tftp
+          nfs:
+            path: /mnt/primary/low-priority/tftp
+            readOnly: true
+            server: 192.168.1.200
+      containers:
+        - env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          image: 'linuxserver/netbootxyz:0.6.3-ls27'
+          imagePullPolicy: IfNotPresent
+          name: netboot-xyz
+          ports:
+              - containerPort: 80
+                name: nginx
+                protocol: TCP
+              - containerPort: 3000
+                name: web-ui
+                protocol: TCP
+              - containerPort: 69
+                name: tftp
+                protocol: UDP
+          volumeMounts:
+            - mountPath: /assets
+              name: tftp
+              readOnly: true
+            - mountPath: /config
+              name: netboot-xyz
+              readOnly: false
+  volumeClaimTemplates:
+    - metadata:
+        name: netboot-xyz
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: netboot-xyz
+        resources:
+          requests:
+            storage: 1G
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: netboot-xyz
+spec:
+    type: NodePort
+    selector:
+        statefulset.kubernetes.io/pod-name: netboot-xyz
+    ports:
+        - name: nginx
+          protocol: TCP
+          port: 80
+          nodePort: 30111
+        - name: web-ui
+          protocol: TCP
+          port: 3000
+          nodePort: 30112
+        - name: tftp
+          protocol: UDP
+          port: 69
+          nodePort: 30113
+
