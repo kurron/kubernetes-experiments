@@ -7,7 +7,7 @@ spec:
     matchLabels:
       app: plex
   serviceName: plex
-  replicas: 4
+  replicas: 3
   template:
     metadata:
       labels:
@@ -50,7 +50,7 @@ spec:
                   key: claim-token
             - name: TZ
               value: America/New_York
-          image: 'plexinc/pms-docker:1.20.2.3402-0fec14d92'
+          image: 'plexinc/pms-docker:1.20.3.3437-f1f08d65b'
           imagePullPolicy: IfNotPresent
           name: plex
           volumeMounts:
