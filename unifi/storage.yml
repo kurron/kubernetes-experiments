@@ -2,14 +2,17 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-    name: unifi-controller
+  name: unifi-controller
 spec:
-    storageClassName: unifi-controller
-    capacity:
-        storage: 128M
-    accessModes:
-        - ReadWriteOnce
-    nfs:
-        server: 192.168.1.200
-        path: /mnt/primary/medium-priority/ums
+  storageClassName: unifi-controller
+  capacity:
+    storage: 16G
+  accessModes:
+    - ReadWriteOnce
+  iscsi:
+    targetPortal: '192.168.1.200:3260'
+    iqn: 'iqn.2005-10.org.freenas.ctl:unifi-alpha'
+    lun: 0
+    fsType: ext4
+    readOnly: false
 
