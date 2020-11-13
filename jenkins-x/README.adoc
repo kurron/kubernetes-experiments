@@ -11,7 +11,10 @@ This project deploys https://jenkins-x.io/[Jenkins X] to an existing https://mic
 
 == Prerequisites
 * A working multi-node MicroK8s cluster
-* all testing was done on Ubuntu 20.04.1 LTS
+* All testing was done on Ubuntu 20.04.1 LTS
+* A machine outside of the cluster with kubectl installed and configured to connect to the MicroK8s cluster
+* Git installed and working
+* A GitHub account
 
 == Building
 There isn't any code, so there is nothing to build.
@@ -20,10 +23,57 @@ There isn't any code, so there is nothing to build.
 === Jenkins X CLI
 Run `./install-cli.sh` to grab the CLI and install it onto your machine.
 
+=== Clone Jenkins X Boot Project
+You need to clone https://github.com/jenkins-x/jenkins-x-boot-config.git[jenkins-x-boot-config] somewhere. This holds the files that `jx` will read to install Jenkins X.
+
+=== Modify jx-requriements.yml
+You need to modify the `jx-requirements.yml` file in the `jenkins-x-boot-config` project so it will use the existing MicroK8s cluster instead of a cloud one.  See https://jenkins-x.io/docs/install-setup/boot/clouds/on-premise/[On Premise] for details.  Here is a sample of what I did:
+
+```yaml
+cluster:
+  clusterName: "Ronbo"
+  environmentGitOwner: "my-github-organization"
+  environmentGitPublic: false
+  project: "Sandbox"
+  provider: kubernetes
+  zone: "Basement"
+
+ingress:
+  domain: "192.168.1.244.nip.io"
+  ignoreLoadBalancer: true
+  externalDNS: false
+  tls:
+    email: ""
+    enabled: false
+    production: false
+```
+
+=== Install Jenkins X
+Go into the `jenkins-x-boot-config` directory and run `jx boot`. It will ask a few questions and then install the necessary K8s componenets.
+
 == Tips and Tricks
-=== Bar
+=== Configuring kubectl
+MicroK8s installs its own version of kubectl which doesn't play well with Jenkins X so we need to install and configure a "real" kubectl on a machine outside of the cluster. Look at https://microk8s.io/docs/working-with-kubectl[Working with kubectl
+] to set that up.
+
+=== Quick Start
+Jenkins X has a quick start tool where you can easily "kick the tires". For more details, checkoout https://jenkins-x.io/docs/create-project/creating/[Creating with Quickstarts or importing]
+1. `jx create quickstart`
+1. `jx get activity -f your-repository-name -w`
+1. `jx get build logs kurron/jenkins-x-quick-start/master`
+1. `jx get pipelines`
+1. `jx get applications` 
 
 == Troubleshooting
+=== Jenkins X CLI Version
+The convenience script installs the latest *stable* version but the boot process may express a desire to upgrade to a different version. You can say no and proceed but if you do encouner problems during installation, it is worth trying to use the version the installer wants.
+
+=== Error During Installation
+I ran into https://github.com/jenkins-x/jx/issues/7466[Error while `jx upgrade boot` ( `{}.SSHConfigError` )] during installation. I rolled the dice and blindly changed `env/parameters.yml` and enabled Docker as described in the ticket. My cluster uses containerd to run containers so I'm not exactly sure how this will affect things but the installer progressed past that error. 
+
+=== Error During Pod Startup
+I had an error starting up one of the `lighthouse-webhooks` pods complaining about `x509: certificate signed by unknown authority`. I noticed that the main node had that pod running so I drained the 3 nodes in cluster, reducing the cluster down to 1 node and the installation completed.
+
 
 == Contributing
 
