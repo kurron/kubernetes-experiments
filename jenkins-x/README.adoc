@@ -51,6 +51,8 @@ ingress:
 === Install Jenkins X
 Go into the `jenkins-x-boot-config` directory and run `jx boot`. It will ask a few questions and then install the necessary K8s componenets.
 
+TIP: I noticed that one of the pods wouldn't start and the `describe` command said it was waiting on storage, causing me to note that the storage add-on had not been enabled. I suggest running `microk8s enable storage` prior to installing Jenkins X.
+
 == Tips and Tricks
 === Configuring kubectl
 MicroK8s installs its own version of kubectl which doesn't play well with Jenkins X so we need to install and configure a "real" kubectl on a machine outside of the cluster. Look at https://microk8s.io/docs/working-with-kubectl[Working with kubectl
