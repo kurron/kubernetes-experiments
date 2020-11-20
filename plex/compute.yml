@@ -66,6 +66,12 @@ spec:
             - mountPath: /config
               name: plex-config
               readOnly: false
+          livenessProbe:
+            tcpSocket:
+              port: 32400
+            timeoutSeconds: 15
+            initialDelaySeconds: 15
+            periodSeconds: 30
   volumeClaimTemplates:
     - metadata:
         name: plex-config
