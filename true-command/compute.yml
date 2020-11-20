@@ -27,6 +27,12 @@ spec:
             - mountPath: /data
               name: true-command
               readOnly: false
+          livenessProbe:
+            tcpSocket:
+              port: http
+            timeoutSeconds: 15
+            initialDelaySeconds: 15
+            periodSeconds: 30
   volumeClaimTemplates:
     - metadata:
         name: true-command 
