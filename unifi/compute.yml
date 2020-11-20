@@ -49,6 +49,12 @@ spec:
                         -
                             mountPath: /config
                             name: unifi-controller
+                    livenessProbe:
+                      tcpSocket:
+                        port: 8443
+                      timeoutSeconds: 15
+                      initialDelaySeconds: 15
+                      periodSeconds: 30
     volumeClaimTemplates:
         -
             metadata:
