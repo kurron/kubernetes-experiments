@@ -50,7 +50,7 @@ spec:
                   key: claim-token
             - name: TZ
               value: America/New_York
-          image: 'plexinc/pms-docker:1.21.0.3711-b509cc236'
+          image: 'plexinc/pms-docker:1.21.1.3830-6c22540d5'
           imagePullPolicy: IfNotPresent
           name: plex
           volumeMounts:
