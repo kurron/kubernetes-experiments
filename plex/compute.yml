@@ -7,7 +7,7 @@ spec:
     matchLabels:
       app: plex
   serviceName: plex
-  replicas: 3
+  replicas: 4
   template:
     metadata:
       labels:
