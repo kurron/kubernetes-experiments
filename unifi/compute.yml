@@ -9,7 +9,7 @@ spec:
             app: unifi-controller
     serviceName: unifi-controller
     # probably doesn't make sense to ever go beyond 1 
-    replicas: 1
+    replicas: 0
     template:
         metadata:
             labels:
