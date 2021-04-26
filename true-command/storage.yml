@@ -6,12 +6,12 @@ metadata:
 spec:
   storageClassName: true-command 
   capacity:
-    storage: 16G
+    storage: 80G
   accessModes:
     - ReadWriteOnce
   iscsi:
     targetPortal: '192.168.1.200:3260'
-    iqn: 'iqn.2005-10.org.freenas.ctl:true-command-alpha'
+    iqn: 'iqn.2005-10.org.freenas.ctl:true-command'
     lun: 0
     fsType: ext4
     readOnly: false
