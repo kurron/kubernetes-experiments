@@ -15,7 +15,7 @@ spec:
     spec:
       terminationGracePeriodSeconds: 10
       containers:
-        - image: 'ixsystems/truecommand:2.0_beta'
+        - image: 'ixsystems/truecommand:2.0'
           imagePullPolicy: IfNotPresent
           name: true-command
           ports:
