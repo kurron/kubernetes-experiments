@@ -52,9 +52,9 @@ spec:
                     livenessProbe:
                       tcpSocket:
                         port: 8443
-                      timeoutSeconds: 15
-                      initialDelaySeconds: 15
-                      periodSeconds: 30
+                      timeoutSeconds: 30
+                      initialDelaySeconds: 60
+                      periodSeconds: 60
     volumeClaimTemplates:
         -
             metadata:
