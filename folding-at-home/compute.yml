@@ -1,0 +1,62 @@
+﻿kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: fah
+spec:
+  selector:
+    matchLabels:
+      app: fah
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: fah
+    spec:
+      hostNetwork: true
+      terminationGracePeriodSeconds: 10
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: fah
+                    operator: In
+                    values:
+                      - "true"
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - fah
+              topologyKey: kubernetes.io/hostname
+      volumes:
+        - name: fah-configuration
+          ephemeral:
+            volumeClaimTemplate:
+              spec:
+                accessModes:
+                  - ReadWriteOnce
+                storageClassName: fah-configuration
+                resources:
+                  requests:
+                    storage: 1G
+      containers:
+        - env:
+            - name: TZ
+              value: America/New_York
+          image: 'linuxserver/foldingathome:version-7.6.21'
+          imagePullPolicy: IfNotPresent
+          name: fah
+          volumeMounts:
+            - mountPath: /config
+              name: fah-configuration
+              readOnly: false
+          livenessProbe:
+            tcpSocket:
+              port: 7396
+            timeoutSeconds: 15
+            initialDelaySeconds: 15
+            periodSeconds: 30

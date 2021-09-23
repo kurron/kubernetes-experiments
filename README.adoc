@@ -30,6 +30,7 @@ Aliasing `microk8s.kubectl` to `kubectl` shortens the commands a bit and all ins
 * link:localstack/README.adoc[localstack] - A fully functional local AWS cloud stack. Develop and test your cloud & serverless apps offline using https://github.com/localstack/localstack/[localstack].
 * link:unifi/README.adoc[Unifi Controller] - Manage your Ubiquiti network devices.
 * link:external-datastores/README.adoc[External Datastores] - access externally hosted datastores using a stable name.
+* link:folding-at-home/README.adoc[Folding at Home] - donate spare CPU to various scientific projects.
 
 == Contributing
 

@@ -1,0 +1,41 @@
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+== Overview
+This project deploys multiple instances of the https://foldingathome.org/[Folding at Home] container to the cluster.
+
+== Prerequisites
+This deployment assumes the MicroK8s https://microk8s.io/docs/addons[storage add on] has been enabled on all nodes.
+
+== Building
+There isn't any code, so there is nothing bo build, but you do need to edit `compute.yml` and `storage.yml` to match your network configuration before proceeding.
+
+== Installation
+
+=== Storage
+Folding at Home requires a directory to store its configuration.  For each node in the cluster, we need to declare our storage type. Run `kubectl create --filename storage.yml` to create the required `StorageClass`.
+
+=== FaH Instances
+Run `kubectl create --filename compute.yml` to create an instance of Folding at Home.  The file is configured to only deploy a single instance, allowing you to see if it is working properly. Use `kubectl get deployments --output wide` to see when it is ready. You can then use `kubectl get pod --output wide` to get the ip address of the instance so you can bring up the console.
+
+== Tips and Tricks
+=== Networking
+The pods are configured to use `hostNetwork: true` which means that all ports on the FaH pods are bound to the identicial ports on the host node. To guard against port collisions, anti-affinity is used.  If you try and scale up beyond the number of nodes in the cluster, the service will be show up as "pending" as it waits for another node to come online.
+
+=== Node Affinity 
+FaH consumes CPU so you probably want to limit the nodes it runs on. Run `kubectl label nodes <node name> fah=true` on any nodes you want FaH to run.
+
+== Troubleshooting
+
+== Contributing
+
+== License and Credits
+* This project is licensed under the http://www.apache.org/licenses/[Apache License Version 2.0, January 2004].
+
+== List of Changes
+
