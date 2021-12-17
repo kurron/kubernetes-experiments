@@ -50,7 +50,7 @@ spec:
                   key: claim-token
             - name: TZ
               value: America/New_York
-          image: 'linuxserver/plex:1.25.0'
+          image: 'linuxserver/plex:1.25.2'
           imagePullPolicy: IfNotPresent
           name: plex
           volumeMounts:
