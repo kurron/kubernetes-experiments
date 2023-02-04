@@ -42,7 +42,7 @@ spec:
                         -
                             name: MEM_LIMIT
                             value: "1024"
-                    image: 'linuxserver/unifi-controller:7.2.94'
+                    image: 'linuxserver/unifi-controller:7.3.76'
                     imagePullPolicy: IfNotPresent
                     name: unifi-controller
                     volumeMounts:
